@@ -1,124 +1,123 @@
-//Código combina o HTML, CSS e JavaScript em um único arquivo
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Massuh Imóveis</title>
     <style>
-        :root {
-            --primary-color: #dc2626;
-            --text-color: #333;
-            --bg-color: #fff;
-            --card-bg-color: #fff;
-            --border-color: #e5e7eb;
-        }
-
+        /* Estilos gerais */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            color: var(--text-color);
-            background-color: var(--bg-color);
+            background-color: #f3f4f6;
         }
-
-        .dark {
-            --text-color: #fff;
-            --bg-color: #1a1a1a;
-            --card-bg-color: #2a2a2a;
-            --border-color: #444;
-        }
-
-        .app-container {
+        .container {
             display: flex;
             height: 100vh;
         }
-
+        /* Estilos do painel esquerdo */
         .left-panel {
             width: 250px;
-            background-color: var(--card-bg-color);
-            border-right: 1px solid var(--border-color);
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
+            background-color: white;
+            border-right: 1px solid #e5e7eb;
+            transition: transform 0.2s ease-in-out;
+        }
+        .left-panel.closed {
             transform: translateX(-100%);
-            transition: transform 0.3s ease-in-out;
-            z-index: 1000;
         }
-
-        .left-panel.open {
-            transform: translateX(0);
-        }
-
-        .panel-header {
-            background-color: var(--primary-color);
+        .left-panel-header {
+            background-color: #dc2626;
             color: white;
             padding: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
-        .panel-content {
+        .client-list {
             padding: 1rem;
         }
-
-        .main-content {
-            flex-grow: 1;
-            margin-left: 0;
-            transition: margin-left 0.3s ease-in-out;
-        }
-
-        .main-content.shifted {
-            margin-left: 250px;
-        }
-
-        .main-header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1rem;
+        .client-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0.5rem;
+            cursor: pointer;
         }
-
-        .header-left, .header-right {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .main-area {
-            padding: 2rem;
+        .client-item:hover {
             background-color: #f3f4f6;
-            min-height: calc(100vh - 64px);
         }
-
+        /* Estilos do conteúdo principal */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #dc2626;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .content {
+            padding: 1.5rem;
+            overflow: auto;
+        }
         .card {
-            background-color: var(--card-bg-color);
+            background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            overflow: hidden;
+            max-width: 64rem;
+            margin: 0 auto;
         }
-
         .card-header {
-            background-color: var(--primary-color);
+            background-color: #dc2626;
             color: white;
-            padding: 1rem;
+            padding: 0.5rem;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+            min-height: 40px;
             display: flex;
             align-items: center;
-            gap: 1rem;
+            justify-content: space-between;
         }
-
         .card-content {
             padding: 1rem;
         }
-
-        .accordion-item {
-            border-bottom: 1px solid var(--border-color);
+        /* Estilos dos componentes */
+        .button {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
         }
-
+        .button:hover {
+            background-color: #b91c1c;
+        }
+        .input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+        }
+        .select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.25rem;
+            background-color: white;
+        }
+        .accordion {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.25rem;
+        }
+        .accordion-item {
+            border-bottom: 1px solid #e5e7eb;
+        }
         .accordion-header {
             padding: 1rem;
             cursor: pointer;
@@ -126,410 +125,79 @@
             justify-content: space-between;
             align-items: center;
         }
-
         .accordion-content {
             padding: 1rem;
             display: none;
         }
-
-        .accordion-content.open {
+        .accordion-content.active {
             display: block;
         }
-
-        .input, .select, .button {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 0.25rem;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        .button {
-            background-color: var(--primary-color);
-            color: white;
-            cursor: pointer;
-        }
-
-        .icon-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: inherit;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .client-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .client-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-            background-color: var(--bg-color);
-            cursor: pointer;
-        }
-
-        .client-item:hover {
-            background-color: #f3f4f6;
-        }
-
-        .badge {
-            background-color: var(--primary-color);
-            color: white;
-            border-radius: 9999px;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-        }
-
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .table th, .table td {
-            padding: 0.75rem;
-            text-align: left;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .dialog {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .dialog-content {
-            background-color: var(--card-bg-color);
-            padding: 2rem;
-            border-radius: 0.5rem;
-            width: 90%;
-            max-width: 500px;
-        }
-
-        @media (min-width: 768px) {
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
             .left-panel {
-                position: relative;
-                transform: none;
+                position: fixed;
+                z-index: 10;
             }
-
             .main-content {
-                margin-left: 250px;
-            }
-
-            .main-content.shifted {
                 margin-left: 0;
             }
         }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Left Panel -->
+    <div class="container">
         <div id="leftPanel" class="left-panel">
-            <div class="panel-header">
+            <div class="left-panel-header">
                 <h2>Lista de Clientes</h2>
-                <button id="closeLeftPanel" class="icon-button">
-                    <i data-lucide="x"></i>
-                </button>
+                <button id="closeLeftPanel" class="button">X</button>
             </div>
-            <div class="panel-content">
-                <input type="text" id="clientFilter" placeholder="Filtros" class="input">
-                <div id="clientList" class="client-list"></div>
+            <div class="client-list" id="clientList">
+                <!-- Lista de clientes será preenchida dinamicamente -->
             </div>
         </div>
-
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Header -->
-            <header class="main-header">
-                <div class="header-left">
-                    <button id="toggleLeftPanel" class="icon-button">
-                        <i data-lucide="menu"></i>
-                    </button>
+            <header class="header">
+                <div>
+                    <button id="toggleLeftPanel" class="button">Menu</button>
                     <h1>Massuh Imóveis</h1>
                 </div>
-                <div class="header-right">
-                    <button id="toggleDarkMode" class="icon-button">
-                        <i data-lucide="moon"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i data-lucide="log-out"></i>
-                    </button>
+                <div>
+                    <button id="toggleDarkMode" class="button">🌙</button>
+                    <button class="button">Sair</button>
                 </div>
             </header>
-
-            <!-- Main Content Area -->
-            <main id="mainContent" class="main-area">
-                <div id="clientDetails" class="client-details hidden">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 id="clientName"></h2>
-                            <button id="addNewTab" class="icon-button">
-                                <i data-lucide="plus"></i>
-                            </button>
-                            <select id="categoryFilter" class="select">
-                                <option value="ALL">Todas</option>
-                                <option value="TAREFA">TAREFA</option>
-                                <option value="COMPRA">COMPRA</option>
-                                <option value="IMÓVEL">IMÓVEL</option>
-                            </select>
-                            <select id="ticketFilter" class="select">
-                                <option value="active">Ativos</option>
-                                <option value="discarded">Descartados</option>
-                            </select>
-                        </div>
-                        <div class="card-content">
-                            <div id="accordion" class="accordion"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="noClientSelected" class="no-client-selected">
-                    <p>Selecione um cliente para ver os detalhes</p>
-                </div>
+            <main class="content" id="mainContent">
+                <!-- Conteúdo principal será preenchido dinamicamente -->
             </main>
         </div>
     </div>
 
-    <!-- New Ticket Dialog -->
-    <div id="newTicketDialog" class="dialog hidden">
-        <div class="dialog-content">
-            <h2>Novo Ticket</h2>
-            <select id="newTicketType" class="select">
-                <option value="">Selecione o tipo</option>
-                <option value="TAREFA">TAREFA</option>
-                <option value="COMPRA">COMPRA</option>
-                <option value="VENDA">VENDA</option>
-            </select>
-            <select id="newTicketSubtype" class="select">
-                <option value="">Selecione o subtipo</option>
-                <option value="IMÓVEL">IMÓVEL</option>
-                <option value="CARRO">CARRO</option>
-            </select>
-            <select id="newTicketCategory" class="select">
-                <option value="">Selecione a categoria</option>
-                <option value="CATEGORIA1">Categoria 1</option>
-                <option value="CATEGORIA2">Categoria 2</option>
-            </select>
-            <button id="createNewTicket" class="button">Criar Ticket</button>
-            <button id="closeNewTicketDialog" class="button">Cancelar</button>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/lucide@latest"></script>
     <script>
-        // Simulated client data
+        // Dados simulados de clientes
         const clientsData = [
-            { 
-                id: 1, 
-                name: "Alex", 
-                phone: "+556181495065", 
-                email: "alex@example.com", 
-                status: "LEAD",
-                lastEditDate: "28/10/2024",
-                propertyBuying: { 
-                    budget: { type: 'range', exigencia: 500000, preferencia: 550000 },
-                    preferredLocation: "Centro",
-                    squareMeterValue: { type: 'range', exigencia: 9000, preferencia: 11000 },
-                    paymentMethod: "Financiamento",
-                    valueObservations: "Negociável",
-                    minArea: 50,
-                    bedrooms: { 
-                        type: 'multipleChoice',
-                        options: ['1', '2', '3', '4+'],
-                        requirements: ['2'],
-                        preferences: ['2', '3']
-                    },
-                    suites: { 
-                        type: 'multipleChoice',
-                        options: ['0', '1', '2', '3+'],
-                        requirements: [],
-                        preferences: ['1']
-                    },
-                    bathrooms: { 
-                        type: 'multipleChoice',
-                        options: ['1', '2', '3', '4+'],
-                        requirements: ['2'],
-                        preferences: ['2', '3']
-                    },
-                    maidRoom: false,
-                    kitchenType: "Americana",
-                    elevator: true,
-                    floorPreference: { 
-                        type: 'multipleChoice',
-                        options: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10+'],
-                        requirements: [],
-                        preferences: ['5', '6', '7', '8', '9', '10+']
-                    }
-                },
-                carBuying: { 
-                    model: "SUV", 
-                    maxPrice: 80000,
-                    preferredBrands: ["Toyota", "Honda"],
-                    fuelType: "Flex",
-                    yearMin: 2018
-                },
-                propertySelling: { 
-                    address: "Rua A, 123", 
-                    askingPrice: 450000,
-                    propertyType: "Apartamento",
-                    area: 100,
-                    bedrooms: 3,
-                    bathrooms: 2
-                },
-            },
+            { id: 1, name: "Alex", phone: "+556181495065", email: "alex@example.com", status: "LEAD", lastEditDate: "28/10/2024" },
             { id: 2, name: "Maria", phone: "+556187654321", email: "maria@example.com", status: "PROSPECT", lastEditDate: "29/10/2024" },
             { id: 3, name: "João", phone: "+556189876543", email: "joao@example.com", status: "CLIENT", lastEditDate: "30/10/2024" },
         ];
 
-        // Simulated ticket data
+        // Dados simulados de tickets
         const ticketsData = [
-            { id: 1, clientId: 1, type: "propertyBuying", status: "AGENDAMENTO", details: "Apartamento 2 quartos, Centro", title: "IMÓVEL NO PERFIL", date: "30/10/2024", dataPrincipal: "29/10/2024 10:11", dataReserva: "30/10/2024 10:11" },
+            { id: 1, clientId: 1, type: "propertyBuying", status: "AGENDAMENTO", details: "Apartamento 2 quartos, Centro", title: "IMÓVEL NO PERFIL", date: "30/10/2024" },
             { id: 2, clientId: 1, type: "carBuying", status: "EM ANÁLISE", details: "SUV, até R$ 80.000", title: "CARRO NO PERFIL", date: "30/10/2024" },
             { id: 3, clientId: 1, type: "propertySelling", status: "ABERTO", details: "Venda concluída", title: "VENDA DE IMÓVEL", date: "31/10/2024" },
-            { id:  4, clientId: 2, type: "propertyBuying", status: "NÃO ATENDE", details: "Casa 3 quartos, Jardim Botânico", title: "IMÓVEL FORA DO PERFIL", date: "01/11/2024" },
-            { id: 5, clientId: 3, type: "carBuying", status: "ENVIADO E AGUARDANDO RETORNO", details: "Sedan, até R$ 100.000", title: "CARRO LUXO", date: "02/11/2024" },
         ];
 
-        // Update the ticketsData array to set all existing tickets as "TAREFA" type
-        ticketsData.forEach(ticket => {
-            if (!ticket.title.includes(' - ')) {
-                if (ticket.type === 'propertyBuying') {
-                    ticket.title = `TAREFA - ${ticket.type === 'propertyBuying' ? 'COMPRA' : 'VENDA'} - IMÓVEL`;
-                } else if (ticket.type === 'carBuying') {
-                    ticket.title = 'TAREFA - COMPRA - CARRO';
-                } else if (ticket.type === 'propertySelling') {
-                    ticket.title = 'TAREFA - VENDA - IMÓVEL';
-                }
-            }
-        });
-
-        // Predefined fields for each profile type
-        const predefinedFields = {
-            propertyBuying: [
-                "Valor acima do orçamento",
-                "Localização não desejada",
-                "Tamanho inadequado",
-                "Falta de características desejadas",
-                "Condições de pagamento incompatíveis",
-                "Outro"
-            ],
-            carBuying: [
-                "Preço acima do orçamento",
-                "Modelo indisponível",
-                "Marca não preferida",
-                "Ano do veículo inadequado",
-                "Tipo de combustível incompatível",
-                "Outro"
-            ],
-            propertySelling: [
-                "Valor de venda abaixo do esperado",
-                "Localização não atrativa para compradores",
-                "Tamanho do imóvel inadequado para o mercado",
-                "Condições do imóvel não satisfatórias",
-                "Documentação incompleta",
-                "Outro"
-            ]
-        };
-
-        // Global variables
-        let isLeftPanelOpen = true;
-        let isDarkMode = false;
-        let selectedClient = null;
-        let isFullscreen = false;
-        let selectedTicket = null;
-        let isEditing = false;
-        let editedProfile = {};
-        let pendingTickets = { propertyBuying: 0, carBuying: 0, propertySelling: 0 };
-        let selectedPredefinedField = "";
-        let predefinedFieldValue = "";
-        let currentProfileType = "propertyBuying";
-        let ticketFilter = "active";
-        let categoryFilter = "ALL";
-        let accordionItems = [
-            { id: "personal", title: "Informações Pessoais", content: [], pendingCount: 0 },
-            { id: "propertyBuying", title: "TAREFA - COMPRA - IMÓVEL", content: [], pendingCount: 1 },
-            { id: "carBuying", title: "TAREFA - COMPRA - CARRO", content: [], pendingCount: 2 },
-            { id: "propertySelling", title: "TAREFA - VENDA - IMÓVEL", content: [], pendingCount: 1 },
-        ];
-
-        // DOM Elements
+        // Elementos do DOM
         const leftPanel = document.getElementById('leftPanel');
         const toggleLeftPanelBtn = document.getElementById('toggleLeftPanel');
         const closeLeftPanelBtn = document.getElementById('closeLeftPanel');
-        const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
         const clientList = document.getElementById('clientList');
         const mainContent = document.getElementById('mainContent');
-        const clientDetails = document.getElementById('clientDetails');
-        const noClientSelected = document.getElementById('noClientSelected');
-        const clientNameElement = document.getElementById('clientName');
-        const accordion = document.getElementById('accordion');
-        const addNewTabBtn = document.getElementById('addNewTab');
-        const categoryFilterSelect = document.getElementById('categoryFilter');
-        const ticketFilterSelect = document.getElementById('ticketFilter');
-        const newTicketDialog = document.getElementById('newTicketDialog');
-        const createNewTicketBtn = document.getElementById('createNewTicket');
-        const closeNewTicketDialogBtn = document.getElementById('closeNewTicketDialog');
+        const toggleDarkModeBtn = document.getElementById('toggleDarkMode');
 
-        // Event Listeners
-        document.addEventListener('DOMContentLoaded', initApp);
-        toggleLeftPanelBtn.addEventListener('click', toggleLeftPanel);
-        closeLeftPanelBtn.addEventListener('click', toggleLeftPanel);
-        toggleDarkModeBtn.addEventListener('click', toggleDarkMode);
-        addNewTabBtn.addEventListener('click', showNewTicketDialog);
-        categoryFilterSelect.addEventListener('change', handleCategoryFilterChange);
-        ticketFilterSelect.addEventListener('change', handleTicketFilterChange);
-        createNewTicketBtn.addEventListener('click', handleCreateNewTicket);
-        closeNewTicketDialogBtn.addEventListener('click', hideNewTicketDialog);
-
-        // Functions
-        function initApp() {
-            renderClientList();
-            checkScreenSize();
-            window.addEventListener('resize', checkScreenSize);
-            lucide.createIcons();
-        }
-
-        function checkScreenSize() {
-            isFullscreen = window.innerWidth >= 768;
-            if (isFullscreen) {
-                leftPanel.classList.add('open');
-                mainContent.classList.add('shifted');
-            } else {
-                leftPanel.classList.remove('open');
-                mainContent.classList.remove('shifted');
-            }
-        }
-
+        // Funções
         function toggleLeftPanel() {
-            isLeftPanelOpen = !isLeftPanelOpen;
-            leftPanel.classList.toggle('open');
-            if (isFullscreen) {
-                mainContent.classList.toggle('shifted');
-            }
-        }
-
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            document.body.classList.toggle('dark', isDarkMode);
-            toggleDarkModeBtn.innerHTML = isDarkMode ? '<i data-lucide="sun"></i>' : '<i data-lucide="moon"></i>';
-            lucide.createIcons();
+            leftPanel.classList.toggle('closed');
         }
 
         function renderClientList() {
@@ -539,382 +207,75 @@
                 clientElement.className = 'client-item';
                 clientElement.innerHTML = `
                     <span>${client.name}</span>
-                    <span class="client-date">${client.lastEditDate}</span>
+                    <span>${client.lastEditDate}</span>
                 `;
-                clientElement.addEventListener('click', () => handleClientSelect(client));
+                clientElement.addEventListener('click', () => selectClient(client));
                 clientList.appendChild(clientElement);
             });
         }
 
-        function handleClientSelect(client) {
-            selectedClient = client;
-            selectedTicket = null;
-            isEditing = false;
-            editedProfile = client[currentProfileType] || {};
-            renderClientDetails();
-            if (!isFullscreen) {
+        function selectClient(client) {
+            mainContent.innerHTML = `
+                <div class="card">
+                    <div class="card-header">
+                        <h2>${client.name}</h2>
+                    </div>
+                    <div class="card-content">
+                        <div class="accordion">
+                            <div class="accordion-item">
+                                <div class="accordion-header">
+                                    <span>Informações Pessoais</span>
+                                    <button class="button">Editar</button>
+                                </div>
+                                <div class="accordion-content">
+                                    <p>Telefone: ${client.phone}</p>
+                                    <p>Email: ${client.email}</p>
+                                    <p>Status: ${client.status}</p>
+                                </div>
+                            </div>
+                            <!-- Adicione mais itens de acordeão conforme necessário -->
+                        </div>
+                    </div>
+                </div>
+            `;
+            if (window.innerWidth < 768) {
                 toggleLeftPanel();
             }
         }
 
-        function renderClientDetails() {
-            if (selectedClient) {
-                clientDetails.classList.remove('hidden');
-                noClientSelected.classList.add('hidden');
-                clientNameElement.textContent = selectedClient.name;
-                renderAccordion();
-                updatePendingTickets();
-            } else {
-                clientDetails.classList.add('hidden');
-                noClientSelected.classList.remove('hidden');
-            }
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            toggleDarkModeBtn.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
         }
 
-        function renderAccordion() {
-            accordion.innerHTML = '';
-            accordionItems
-                .filter(item => categoryFilter === "ALL" || item.title.includes(categoryFilter))
-                .forEach(item => {
-                    const accordionItem = document.createElement('div');
-                    accordionItem.className = 'accordion-item';
-                    accordionItem.innerHTML = `
-                        <div class="accordion-header">
-                            <span>${item.title}</span>
-                            ${item.pendingCount > 0 ? `<span class="badge">${item.pendingCount}</span>` : ''}
-                            <button class="icon-button edit-button"><i data-lucide="edit"></i></button>
-                        </div>
-                        <div class="accordion-content"></div>
-                    `;
-                    const header = accordionItem.querySelector('.accordion-header');
-                    const content = accordionItem.querySelector('.accordion-content');
-                    const editButton = accordionItem.querySelector('.edit-button');
+        // Event Listeners
+        toggleLeftPanelBtn.addEventListener('click', toggleLeftPanel);
+        closeLeftPanelBtn.addEventListener('click', toggleLeftPanel);
+        toggleDarkModeBtn.addEventListener('click', toggleDarkMode);
 
-                    header.addEventListener('click', () => toggleAccordionItem(content));
-                    editButton.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        handleEditToggle();
-                    });
+        // Função de inicialização
+function initializeApp() {
+    renderClientList();
+    
+    // Seleciona o primeiro cliente por padrão, se houver clientes
+    if (clientsData.length > 0) {
+        selectClient(clientsData[0]);
+    }
 
-                    if (item.id === "personal") {
-                        renderPersonalInfo(content);
-                    } else {
-                        renderTickets(item.id, content);
-                    }
+    // Verifica e aplica o modo escuro se estiver salvo nas preferências do usuário
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        document.body.classList.add('dark-mode');
+        toggleDarkModeBtn.textContent = '☀️';
+    }
 
-                    accordion.appendChild(accordionItem);
-                });
-            lucide.createIcons();
-        }
+    // Ajusta o layout para dispositivos móveis, se necessário
+    if (window.innerWidth < 768) {
+        leftPanel.classList.add('closed');
+    }
+}
 
-        function toggleAccordionItem(content) {
-            content.classList.toggle('open');
-        }
-
-        function renderPersonalInfo(container) {
-            if (isEditing) {
-                container.innerHTML = `
-                    <div class="personal-info-edit">
-                        ${renderProfileFields()}
-                        ${renderPredefinedFieldsSelector()}
-                    </div>
-                `;
-            } else {
-                container.innerHTML = `
-                    <table class="table">
-                        <tr><td>Nome</td><td>${selectedClient.name}</td></tr>
-                        <tr><td>Telefone</td><td>${selectedClient.phone}</td></tr>
-                        <tr><td>Email</td><td>${selectedClient.email}</td></tr>
-                        <tr><td>Status</td><td>${selectedClient.status}</td></tr>
-                    </table>
-                `;
-            }
-        }
-
-        function renderProfileFields() {
-            return Object.entries(editedProfile).map(([field, value]) => {
-                if (typeof value === 'object' && value.type === 'multipleChoice') {
-                    return `
-                        <div class="field">
-                            <label for="${field}">${field}</label>
-                            <button class="multiple-choice-button" data-field="${field}">
-                                ${value.requirements.length > 0 ? `Exigências: ${value.requirements.join(', ')}` : 'Sem exigências'}
-                                ${value.preferences.length > 0 ? ` | Preferências: ${value.preferences.join(', ')}` : ''}
-                            </button>
-                        </div>
-                    `;
-                } else if (typeof value === 'object' && value.type === 'range') {
-                    return `
-                        <div class="field">
-                            <label for="${field}">${field}</label>
-                            <div class="range-inputs">
-                                <input type="number" id="${field}-exigencia" value="${value.exigencia || ''}" placeholder="Exigência">
-                                <input type="number" id="${field}-preferencia" value="${value.preferencia || ''}" placeholder="Preferência">
-                            </div>
-                        </div>
-                    `;
-                } else {
-                    return `
-                        <div class="field">
-                            <label for="${field}">${field}</label>
-                            <input type="${typeof value === 'number' ? 'number' : 'text'}" id="${field}" value="${value}">
-                        </div>
-                    `;
-                }
-            }).join('');
-        }
-
-        function renderPredefinedFieldsSelector() {
-            return `
-                <div class="predefined-fields">
-                    <select id="predefinedFieldSelect">
-                        <option value="">Selecione um campo</option>
-                        ${predefinedFields[currentProfileType].map(field => `<option value="${field}">${field}</option>`).join('')}
-                    </select>
-                    <input type="text" id="predefinedFieldValue" placeholder="Valor do campo">
-                    <button id="addPredefinedField">Adicionar</button>
-                </div>
-            `;
-        }
-
-        function renderTickets(type, container) {
-            const clientTickets = ticketsData.filter(ticket => 
-                ticket.clientId === selectedClient.id && 
-                ticket.type === type &&
-                (ticketFilter === "active" ? ticket.status !== "DESCARTADO" : ticket.status === "DESCARTADO")
-            );
-
-            if (clientTickets.length > 0) {
-                container.innerHTML = `
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>TÍTULO</th>
-                                <th>DATA</th>
-                                <th>SITUAÇÃO</th>
-                                <th>PENDÊNCIA</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${clientTickets.map(ticket => `
-                                <tr data-ticket-id="${ticket.id}">
-                                    <td>${ticket.title}</td>
-                                    <td>
-                                        <input type="date" value="${ticket.date.split('/').reverse().join('-')}" class="date-input ${getDateColor(ticket.date)}">
-                                    </td>
-                                    <td>
-                                        <select class="status-select">
-                                            ${renderStatusOptions(ticket)}
-                                        </select>
-                                    </td>
-                                    <td>
-                                        ${renderPendingIcon(ticket)}
-                                    </td>
-                                </tr>
-                            `).join('')}
-                        </tbody>
-                    </table>
-                `;
-
-                // Add event listeners
-                container.querySelectorAll('.date-input').forEach(input => {
-                    input.addEventListener('change', (e) => handleDateChange(e.target));
-                });
-
-                container.querySelectorAll('.status-select').forEach(select => {
-                    select.addEventListener('change', (e) => handleTicketStatusChange(e.target));
-                });
-
-                container.querySelectorAll('tr[data-ticket-id]').forEach(row => {
-                    row.addEventListener('click', () => handleTicketSelect(row.dataset.ticketId));
-                });
-            } else {
-                container.innerHTML = '<p>Nenhum ticket disponível para este perfil.</p>';
-            }
-        }
-
-        function renderStatusOptions(ticket) {
-            const options = [
-                `<option value="${ticket.status}" selected>${ticket.status}</option>`
-            ];
-
-            if (ticket.status === "ABERTO") {
-                options.push('<option value="EM ANÁLISE">EM ANÁLISE</option>');
-            }
-
-            if (ticket.status === "ABERTO" || ticket.status === "EM ANÁLISE") {
-                options.push('<option value="ENVIADO E AGUARDANDO RETORNO">ENVIADO E AGUARDANDO RETORNO</option>');
-            }
-
-            if (ticket.status !== "AGENDAMENTO") {
-                options.push('<option value="NÃO ATENDE">NÃO ATENDE</option>');
-            }
-
-            options.push('<option value="AGENDAMENTO">AGENDAMENTO</option>');
-
-            if (ticket.resultadoVisita === "POSSIBILIDADE DE COMPRA") {
-                options.push(
-                    '<option value="💰 NEGOCIAÇÃO DE VALORES">💰 NEGOCIAÇÃO DE VALORES</option>',
-                    '<option value="📄 BUROCRÁTICO">📄 BUROCRÁTICO</option>'
-                );
-            }
-
-            return options.join('');
-        }
-
-        function renderPendingIcon(ticket) {
-            if (ticket.status === "ABERTO" || 
-                ticket.status === "EM ANÁLISE" ||
-                ticket.status === "ENVIADO E AGUARDANDO RETORNO" ||
-                (ticket.status === "AGENDAMENTO" && !ticket.dataPrincipal) ||
-                (ticket.status === "NÃO ATENDE" && !ticket.motivoNaoAtende)) {
-                return '<i data-lucide="alert-triangle" class="text-yellow-500"></i>';
-            }
-            return '';
-        }
-
-        function handleDateChange(input) {
-            const ticketId = input.closest('tr').dataset.ticketId;
-            const newDate = input.value;
-            updateTicketDate(ticketId, newDate);
-        }
-
-        function handleTicketStatusChange(select) {
-            const ticketId = select.closest('tr').dataset.ticketId;
-            const newStatus = select.value;
-            updateTicketStatus(ticketId, newStatus);
-        }
-
-        function handleTicketSelect(ticketId) {
-            selectedTicket = ticketsData.find(ticket => ticket.id === parseInt(ticketId));
-            renderTicketDetails();
-        }
-
-        function updateTicketDate(ticketId, newDate) {
-            const [year, month, day] = newDate.split('-');
-            const formattedDate = `${day}/${month}/${year}`;
-            const updatedTicketsData = ticketsData.map(ticket => 
-                ticket.id === parseInt(ticketId) ? { ...ticket, date: formattedDate } : ticket
-            );
-            ticketsData.splice(0, ticketsData.length, ...updatedTicketsData);
-            updatePendingTickets();
-            renderAccordion();
-        }
-
-        function updateTicketStatus(ticketId, newStatus) {
-            const updatedTicketsData = ticketsData.map(ticket => {
-                if (ticket.id === parseInt(ticketId)) {
-                    const updatedTicket = { ...ticket, status: newStatus };
-                    if (newStatus === "EM ANÁLISE") {
-                        updatedTicket.previousStatus = "ABERTO";
-                    } else if (["ENVIADO E AGUARDANDO RETORNO", "AGENDAMENTO"].includes(newStatus)) {
-                        updatedTicket.previousStatus = ticket.status;
-                    }
-                    return updatedTicket;
-                }
-                return ticket;
-            });
-            ticketsData.splice(0, ticketsData.length, ...updatedTicketsData);
-            updatePendingTickets();
-            renderAccordion();
-        }
-
-        function updatePendingTickets() {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const pending = { propertyBuying: 0, carBuying: 0, propertySelling: 0 };
-            
-            ticketsData.forEach(ticket => {
-                if (ticket.clientId === selectedClient.id) {
-                    const [day, month, year] = ticket.date.split('/');
-                    const ticketDate = new Date(year, month - 1, day);
-                    ticketDate.setHours(0, 0, 0, 0);
-                    
-                    const isAgendamentoPending = ticket.status === "AGENDAMENTO" && (
-                        !ticket.dataPrincipal || 
-                        !ticket.statusAgendamento ||
-                        ticketDate.getTime() === today.getTime()
-                    );
-                    
-                    if (
-                        ticket.status === "ABERTO" || 
-                        ticket.status === "EM ANÁLISE" ||
-                        ticket.status === "ENVIADO E AGUARDANDO RETORNO" ||
-                        isAgendamentoPending ||
-                        (ticket.status === "NÃO ATENDE" && !ticket.motivoNaoAtende) ||
-                        ticketDate < today
-                    ) {
-                        pending[ticket.type]++;
-                    }
-                }
-            });
-            pendingTickets = pending;
-            updateAccordionItemsPendingCount();
-        }
-
-        function updateAccordionItemsPendingCount() {
-            accordionItems = accordionItems.map(item => {
-                if (item.id in pendingTickets) {
-                    return { ...item, pendingCount: pendingTickets[item.id] };
-                }
-                return item;
-            });
-        }
-
-        function getDateColor(date) {
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            const [day, month, year] = date.split('/');
-            const ticketDate = new Date(year, month - 1, day);
-            ticketDate.setHours(0, 0, 0, 0);
-            
-            if (ticketDate < today) return 'text-red-500';
-            if (ticketDate.getTime() === today.getTime()) return 'text-yellow-500';
-            return 'text-green-500';
-        }
-
-        function handleEditToggle() {
-            isEditing = !isEditing;
-            renderAccordion();
-        }
-
-        function handleCategoryFilterChange(e) {
-            categoryFilter = e.target.value;
-            renderAccordion();
-        }
-
-        function handleTicketFilterChange(e) {
-            ticketFilter = e.target.value;
-            renderAccordion();
-        }
-
-        function showNewTicketDialog() {
-            newTicketDialog.classList.remove('hidden');
-        }
-
-        function hideNewTicketDialog() {
-            newTicketDialog.classList.add('hidden');
-        }
-
-        function handleCreateNewTicket() {
-            const newTicketType = document.getElementById('newTicketType').value;
-            const newTicketSubtype = document.getElementById('newTicketSubtype').value;
-            const newTicketCategory = document.getElementById('newTicketCategory').value;
-
-            if (newTicketType && newTicketSubtype && newTicketCategory) {
-                const newAccordionItem = {
-                    id: `${newTicketType.toLowerCase()}-${newTicketSubtype.toLowerCase()}-${newTicketCategory.toLowerCase()}`,
-                    title: `${newTicketType} - ${newTicketSubtype} - ${newTicketCategory}`,
-                    content: [],
-                    pendingCount: 0
-                };
-                accordionItems.push(newAccordionItem);
-                renderAccordion();
-                hideNewTicketDialog();
-            }
-        }
-
-        // Initialize the app
-        initApp();
+// Chamada de inicialização
+document.addEventListener('DOMContentLoaded', initializeApp);
     </script>
 </body>
 </html>
