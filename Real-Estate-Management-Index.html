@@ -1,106 +1,38 @@
-//Somente HTML
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Massuh Imóveis</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Left Panel -->
+    <div class="container">
         <div id="leftPanel" class="left-panel">
-            <div class="panel-header">
+            <div class="left-panel-header">
                 <h2>Lista de Clientes</h2>
-                <button id="closeLeftPanel" class="icon-button">
-                    <i data-lucide="x"></i>
-                </button>
+                <button id="closeLeftPanel" class="button">X</button>
             </div>
-            <div class="panel-content">
-                <input type="text" id="clientFilter" placeholder="Filtros" class="input">
-                <div id="clientList" class="client-list"></div>
+            <div class="client-list" id="clientList">
+                <!-- Lista de clientes será preenchida dinamicamente -->
             </div>
         </div>
-
-        <!-- Main Content -->
         <div class="main-content">
-            <!-- Header -->
-            <header class="main-header">
-                <div class="header-left">
-                    <button id="toggleLeftPanel" class="icon-button">
-                        <i data-lucide="menu"></i>
-                    </button>
+            <header class="header">
+                <div>
+                    <button id="toggleLeftPanel" class="button">Menu</button>
                     <h1>Massuh Imóveis</h1>
                 </div>
-                <div class="header-right">
-                    <button id="toggleDarkMode" class="icon-button">
-                        <i data-lucide="moon"></i>
-                    </button>
-                    <button class="icon-button">
-                        <i data-lucide="log-out"></i>
-                    </button>
+                <div>
+                    <button id="toggleDarkMode" class="button">🌙</button>
+                    <button class="button">Sair</button>
                 </div>
             </header>
-
-            <!-- Main Content Area -->
-            <main id="mainContent" class="main-area">
-                <div id="clientDetails" class="client-details hidden">
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 id="clientName"></h2>
-                            <button id="addNewTab" class="icon-button">
-                                <i data-lucide="plus"></i>
-                            </button>
-                            <select id="categoryFilter" class="select">
-                                <option value="ALL">Todas</option>
-                                <option value="TAREFA">TAREFA</option>
-                                <option value="COMPRA">COMPRA</option>
-                                <option value="IMÓVEL">IMÓVEL</option>
-                            </select>
-                            <select id="ticketFilter" class="select">
-                                <option value="active">Ativos</option>
-                                <option value="discarded">Descartados</option>
-                            </select>
-                        </div>
-                        <div class="card-content">
-                            <div id="accordion" class="accordion"></div>
-                        </div>
-                    </div>
-                </div>
-                <div id="noClientSelected" class="no-client-selected">
-                    <p>Selecione um cliente para ver os detalhes</p>
-                </div>
+            <main class="content" id="mainContent">
+                <!-- Conteúdo principal será preenchido dinamicamente -->
             </main>
         </div>
     </div>
-
-    <!-- New Ticket Dialog -->
-    <div id="newTicketDialog" class="dialog hidden">
-        <div class="dialog-content">
-            <h2>Novo Ticket</h2>
-            <select id="newTicketType" class="select">
-                <option value="">Selecione o tipo</option>
-                <option value="TAREFA">TAREFA</option>
-                <option value="COMPRA">COMPRA</option>
-                <option value="VENDA">VENDA</option>
-            </select>
-            <select id="newTicketSubtype" class="select">
-                <option value="">Selecione o subtipo</option>
-                <option value="IMÓVEL">IMÓVEL</option>
-                <option value="CARRO">CARRO</option>
-            </select>
-            <select id="newTicketCategory" class="select">
-                <option value="">Selecione a categoria</option>
-                <option value="CATEGORIA1">Categoria 1</option>
-                <option value="CATEGORIA2">Categoria 2</option>
-            </select>
-            <button id="createNewTicket" class="button">Criar Ticket</button>
-            <button id="closeNewTicketDialog" class="button">Cancelar</button>
-        </div>
-    </div>
-
     <script src="script.js"></script>
 </body>
 </html>
